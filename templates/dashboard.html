@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Gifts | GiftGenie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="page-shell">
+    <nav class="top-nav">
+        <a href="/" class="brand">GiftGenie</a>
+        <div class="nav-links">
+            <a href="/">Find Gifts</a>
+            <a href="/logout">Log Out</a>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <section class="glass-card dashboard-card">
+            <p class="eyebrow">Saved picks</p>
+            <h1>Your Recommended Gifts</h1>
+            <p class="subtitle">Welcome back, {{ username }}.</p>
+
+            {% if saved_gifts %}
+                <div class="gift-history-container">
+                    {% for gift in saved_gifts %}
+                        <div class="history-item">
+                            <div class="gift-meta">
+                                <span><strong>For:</strong> {{ gift.recipient_name }}</span>
+                                <span><strong>Relation:</strong> {{ gift.relation }}</span>
+                                <span><strong>Age:</strong> {{ gift.age }}</span>
+                                <span><strong>Interest:</strong> {{ gift.interest }}</span>
+                                <span><strong>Budget:</strong> ${{ gift.budget }}</span>
+                            </div>
+
+                            <h2>{{ gift.gift_name }}</h2>
+                            <p>{{ gift.why_it_works }}</p>
+
+                            <div class="shop-links">
+                                <a href="{{ gift.amazon_link }}" target="_blank">Amazon</a>
+                                <a href="{{ gift.etsy_link }}" target="_blank">Etsy</a>
+                                <a href="{{ gift.target_link }}" target="_blank">Target</a>
+                            </div>
+
+                            <form action="/delete_gift/{{ loop.index0 }}" method="POST">
+                                <button type="submit" class="delete-btn">Delete Pick</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="empty-message">No saved gifts yet. Generate ideas and click Add This Gift to Picks.</p>
+            {% endif %}
+
+            <div class="dashboard-navigation">
+                <a href="/" class="btn-secondary">Find New Gifts</a>
+                <a href="/logout" class="logout-link">Log Out</a>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
