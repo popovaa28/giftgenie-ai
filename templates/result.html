@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gift Ideas | GiftGenie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="page-shell">
+    <nav class="top-nav">
+        <a href="/" class="brand">GiftGenie</a>
+        <div class="nav-links">
+            {% if username %}
+                <a href="/dashboard">Your Gifts</a>
+                <a href="/logout">Log Out</a>
+            {% else %}
+                <a href="/login">Log In</a>
+                <a href="/signup">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="result-container">
+        <section class="glass-card result-card">
+            <p class="eyebrow">Gift results</p>
+            <h1>Ideas for {{ recipient_name }}</h1>
+
+            <div class="summary-box">
+                <span><strong>Relation:</strong> {{ relation }}</span>
+                <span><strong>Age:</strong> {{ age }}</span>
+                <span><strong>Interest:</strong> {{ interest }}</span>
+                <span><strong>Budget:</strong> ${{ budget }}</span>
+            </div>
+
+            <div class="gift-history-container">
+                {% for gift in gift_ideas %}
+                    <div class="history-item">
+                        <h2>{{ gift.gift_name }}</h2>
+                        <p>{{ gift.why_it_works }}</p>
+
+                        <div class="shop-links">
+                            <a href="{{ gift.amazon_link }}" target="_blank">Amazon</a>
+                            <a href="{{ gift.etsy_link }}" target="_blank">Etsy</a>
+                            <a href="{{ gift.target_link }}" target="_blank">Target</a>
+                        </div>
+
+                        {% if username %}
+                            <form action="/save_gift" method="POST">
+                                <input type="hidden" name="recipient_name" value="{{ recipient_name }}">
+                                <input type="hidden" name="age" value="{{ age }}">
+                                <input type="hidden" name="interest" value="{{ interest }}">
+                                <input type="hidden" name="relation" value="{{ relation }}">
+                                <input type="hidden" name="budget" value="{{ budget }}">
+
+                                <input type="hidden" name="gift_name" value="{{ gift.gift_name }}">
+                                <input type="hidden" name="why_it_works" value="{{ gift.why_it_works }}">
+                                <input type="hidden" name="amazon_link" value="{{ gift.amazon_link }}">
+                                <input type="hidden" name="etsy_link" value="{{ gift.etsy_link }}">
+                                <input type="hidden" name="target_link" value="{{ gift.target_link }}">
+
+                                <button type="submit" class="btn-primary small-btn">Add This Gift to Picks</button>
+                            </form>
+                        {% else %}
+                            <a href="/login" class="btn-secondary">Log in to Save This Gift</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="controls">
+                <form action="/generate" method="POST">
+                    <input type="hidden" name="recipient_name" value="{{ recipient_name }}">
+                    <input type="hidden" name="age" value="{{ age }}">
+                    <input type="hidden" name="interest" value="{{ interest }}">
+                    <input type="hidden" name="relation" value="{{ relation }}">
+                    <input type="hidden" name="budget" value="{{ budget }}">
+                    <button type="submit" class="btn-primary small-btn">Show Different Ideas</button>
+                </form>
+
+                <a href="/" class="btn-secondary">Search Again</a>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
