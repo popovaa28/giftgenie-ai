@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GiftGenie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="page-shell">
+    <nav class="top-nav">
+        <a href="/" class="brand">GiftGenie</a>
+        <div class="nav-links">
+            {% if username %}
+                <a href="/dashboard">Your Gifts</a>
+                <a href="/logout">Log Out</a>
+            {% else %}
+                <a href="/login">Log In</a>
+                <a href="/signup">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="glass-card">
+            <p class="eyebrow">Personalized gift finder</p>
+            <h1>Find gifts that actually feel personal.</h1>
+            <p class="subtitle">Tell GiftGenie who you are shopping for, what they like, and your budget.</p>
+
+            <form action="/generate" method="POST">
+                <div class="form-group">
+                    <label>Recipient Name</label>
+                    <input type="text" name="recipient_name" placeholder="e.g. Mom, Max, Sofia" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Recipient Age</label>
+                    <select name="age" required>
+                        <option value="Child (6-12)">Child (6-12)</option>
+                        <option value="Teen (12-18)">Teen (12-18)</option>
+                        <option value="Young Adult (18-25)">Young Adult (18-25)</option>
+                        <option value="Adult (25-60)">Adult (25-60)</option>
+                        <option value="Senior (60+)">Senior (60+)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>What are they into?</label>
+                    <input type="text" name="interest" placeholder="e.g. 80s rock, space, baking, art" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Relation to You</label>
+                    <select name="relation" required>
+                        <option value="Parent">Parent</option>
+                        <option value="Friend">Friend</option>
+                        <option value="Sibling">Sibling</option>
+                        <option value="Partner">Partner</option>
+                        <option value="Teacher">Teacher</option>
+                        <option value="Other Relative">Other Relative</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Budget: $<span id="budgetValue">50</span></label>
+                    <input type="range" name="budget" min="10" max="300" value="50" step="5"
+                           oninput="document.getElementById('budgetValue').innerText = this.value">
+                </div>
+
+                <button type="submit" class="btn-primary">Find Gift Ideas</button>
+            </form>
+        </section>
+    </main>
+</div>
+</body>
+</html>
