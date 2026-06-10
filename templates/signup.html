@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up | GiftGenie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="page-shell">
+    <nav class="top-nav">
+        <a href="/" class="brand">GiftGenie</a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/login">Log In</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="glass-card">
+            <p class="eyebrow">Start your vault</p>
+            <h1>Sign up for GiftGenie</h1>
+            <p class="subtitle">Save gift ideas for friends, parents, teachers, and more.</p>
+
+            {% if error %}
+                <p class="error-message">{{ error }}</p>
+            {% endif %}
+
+            <form action="/signup" method="POST" class="login-form">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" placeholder="Choose a username" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Choose a password" required>
+                </div>
+
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+
+            <a href="/login" class="btn-secondary">Already have an account?</a>
+        </section>
+    </main>
+</div>
+</body>
+</html>
